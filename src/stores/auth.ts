@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 export const useAuth = defineStore('auth', () => {
-  const local = JSON.parse(localStorage.getItem('auth'))
+  const localAuth = localStorage.getItem('auth')
+  const local = JSON.parse(localAuth || '{}')
 
   const id = ref(local?.id ? local.id : '')
   const email = ref(local?.email ? local.email : '')
