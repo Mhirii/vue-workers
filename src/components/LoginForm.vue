@@ -3,6 +3,9 @@ import { ref } from "vue";
 import axios from 'axios'
 
 import FormField from "./FromField.vue"
+import { useAuth } from "@/stores/auth";
+
+const auth = useAuth()
 
 const email = ref("");
 const password = ref("");
@@ -16,6 +19,12 @@ const login = async () => {
     password: password.value
   }, { headers })
   console.log(response.data)
+  auth.id = response.data.user.id
+  auth.access_token = response.data.session.access_token
+  auth.refresh_token = response.data.session.refresh_token
+  auth.email = response.data.user.email
+  console.log(auth.username)
+  auth.persistToLocalStorage()
 }
 </script>
 
