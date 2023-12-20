@@ -7,25 +7,50 @@ import { useAuth } from "@/stores/auth";
 
 const auth = useAuth()
 
+
 const email = ref("");
 const password = ref("");
 const headers = {
   'Content-Type': 'application/json',
   "Access-Control-Allow-Origin": "*",
 };
+
+import { useToast } from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+import router from "@/router";
+
+const $toast = useToast();
+let instance = $toast.success('You did it!');
+// Force dismiss specific toast
+instance.dismiss();
+
+// Dismiss all opened toast immediately
+$toast.clear();
+
 const login = async () => {
-  const response = await axios.post("https://hono.ahmedmhiri218.workers.dev/login", {
-    email: email.value,
-    password: password.value
-  }, { headers })
-  console.log(response.data)
-  auth.id = response.data.user.id
-  auth.access_token = response.data.session.access_token
-  auth.refresh_token = response.data.session.refresh_token
-  auth.email = response.data.user.email
-  console.log(auth.username)
-  auth.persistToLocalStorage()
+  try {
+    await axios.post("https://hono.ahmedmhiri218.workers.dev/login", {
+      email: email.value,
+      password: password.value
+    }, { headers }).then((response) => {
+      auth.id = response.data.user.id
+      auth.access_token = response.data.session.access_token
+      auth.refresh_token = response.data.session.refresh_token
+      auth.email = response.data.user.email
+      auth.persistToLocalStorage()
+      router.replace({ name: 'dashboard' })
+    })
+
+  } catch (err) {
+    console.log(err)
+    $toast.open({
+      message: 'Invalid email or password',
+      type: 'error',
+      position: 'top'
+    });
+  }
 }
+
 </script>
 
 <template>

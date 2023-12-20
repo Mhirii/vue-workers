@@ -21,4 +21,19 @@ const signup = ref(false)
 * {
   @apply transition-all duration-100
 }
+
+a,
+.green {
+  text-decoration: none;
+  transition: 0.4s;
+  padding: 3px;
+  @apply text-indigo-500
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+    @apply bg-indigo-500/20
+  }
+}
 </style>

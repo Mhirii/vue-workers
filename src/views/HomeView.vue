@@ -1,9 +1,15 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import LandingNavbar from '@/components/LandingNavbar.vue';
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <div class="flex flex-col">
+    <LandingNavbar />
+    <main>
+      <!-- TODO: add landing page content -->
+      <div>
+        Home
+      </div>
+    </main>
+  </div>
 </template>

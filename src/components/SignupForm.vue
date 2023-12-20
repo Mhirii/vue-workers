@@ -2,10 +2,22 @@
 import { ref } from "vue";
 import axios from 'axios'
 
+import { useToast } from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+import router from "@/router";
+
 import FormField from "./FromField.vue"
+import { useAuth } from "@/stores/auth";
+
+const $toast = useToast();
+let instance = $toast.success('You did it!');
+instance.dismiss();
+$toast.clear();
 
 const email = ref("");
 const password = ref("");
+
+const auth = useAuth();
 
 const headers = {
   'Content-Type': 'application/json',
@@ -16,7 +28,15 @@ const signup = async () => {
     email: email.value,
     password: password.value
   }, { headers })
-  console.log(response.data)
+
+  console.log(response)
+  auth.id = response.data.user.id
+  auth.access_token = response.data.session.access_token
+  auth.refresh_token = response.data.session.refresh_token
+  auth.email = response.data.user.email
+  auth.persistToLocalStorage()
+  router.replace({ name: 'dashboard' })
+
 }
 </script>
 

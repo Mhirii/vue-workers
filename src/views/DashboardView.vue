@@ -1,14 +1,29 @@
 <script lang="ts" setup>
-import { useAuth } from '@/stores/auth';
+import MainNavbar from '@/components/MainNavbar.vue';
+import TaskWorkspace from '@/components/TaskWorkspace.vue';
+import type { Board } from '@/types';
 
-const auth = useAuth()
+const boards: Board[] = [
+  {
+    id: "1",
+    name: 'To Do',
+  },
+  {
+    id: "2",
+    name: 'In Progress',
+  },
+  {
+    id: "3",
+    name: 'Done',
+  }
+]
+
 </script>
 
 <template>
-  <div>
-    this is the dashboard
-    <div>{{ auth.username }}</div>
-  </div>
+  <MainNavbar />
+  <TaskWorkspace :boards="boards">
+  </TaskWorkspace>
 </template>
 
 <style lang="scss" scoped></style>
